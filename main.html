@@ -22,6 +22,8 @@
         #tab_content{width: 500px;float: left;margin: 20px;position: absolute;overflow: hidden;}
         #tab_content .tab_content_children{position:relative;}
         #tab_content .tab_content_children ul{float: left;}
+        /*内容隐藏*/
+        #tab_content .tab_content_children li ul li{width:80px;word-break:keep-all;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
     </style>
     <script type="text/javascript">
         $(function(){
@@ -38,19 +40,28 @@
                 $(this).css({'color':'#444444'});
             })
         });
+        // 内容效果
         $(function(){
-            // 内容效果
-            var widths  = $('.list_tab').width();
+            var widths  = Math.ceil($('.list_tab').width());
             var lengths = $('#tab_content ul').length;
             $('#tab_content').css({'width':widths}).find('.tab_content_children').css({'width':widths*lengths}).find('ul').css({'width':widths});
             $(".sliding_tab .list_tab li").click(function() {
                     var index = $(".sliding_tab .list_tab li").index(this);
                     showcotent(index);
-                }).eq(0).trigger("click");//默认效果
+                }).eq(0).trigger("click");
             function showcotent(index){
-                var nowleft = -index*widths;
-                $("#tab_content .tab_content_children").stop(true,false).animate({"left":nowleft},300);
+                var nowlefts = -index*widths;
+                $("#tab_content .tab_content_children").stop(true,false).animate({"left":nowlefts},300);
             };
+        });
+        //内容赋值title
+        $(function(){
+            $('#tab_content .tab_content_children li ul li').hover(function () {
+                var value = $(this).text();
+                $(this).attr('title',value);
+            },function(){
+                $(this).removeAttr("title");
+            });
         });
     </script>
 </head>
